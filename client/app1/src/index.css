@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: Georgia, serif;
+}

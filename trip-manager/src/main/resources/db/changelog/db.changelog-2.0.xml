@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="4" author="root">
+        <sql>
+            CREATE TABLE trip
+            (
+                id          BIGSERIAL    PRIMARY KEY,
+                destination        VARCHAR(255) NOT NULL,
+                description      VARCHAR(255) NOT NULL,
+                price       BIGINT,
+                duration    BIGINT
+            );
+        </sql>
+        <rollback>
+            DROP TABLE trip;
+        </rollback>
+    </changeSet>
+    <changeSet id="5" author="root">
+        <sql>
+            CREATE TABLE booking
+            (
+                id          BIGSERIAL    PRIMARY KEY,
+                trip_id       BIGINT NOT NULL,
+                user_id       BIGINT NOT NULL,
+                booking_date TIMESTAMP,
+                CONSTRAINT fk_order_proc FOREIGN KEY (trip_id) REFERENCES trip (id) ON DELETE CASCADE ON UPDATE CASCADE
+            );
+        </sql>
+        <rollback>
+            DROP TABLE booking;
+        </rollback>
+    </changeSet>
+    <changeSet id="6" author="root">
+        <sql>
+            INSERT INTO trip (destination, description, price, duration)
+            VALUES ('Paris, France', 'A wonderful trip in the City of Love! Spend a week at 5-start hotel, all included!', 2000, 7);
+            INSERT INTO trip (destination, description, price, duration)
+            VALUES ('Zanzibar', 'Incredible beaches, 3-stars hotel, free drinks!', 1500, 5);
+            INSERT INTO trip (destination, description, price, duration)
+            VALUES ('Rome', 'Discover the beauty of Rome and eat pizza!', 3000, 4);
+            INSERT INTO trip (destination, description, price, duration)
+            VALUES ('Cluj-Napoca', 'A modern city in which you can spend a great city break.', 1000, 3);
+        </sql>
+        <rollback>
+            TRUNCATE TABLE trip;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
